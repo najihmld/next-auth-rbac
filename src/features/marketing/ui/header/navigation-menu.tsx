@@ -54,10 +54,12 @@ const products: { title: string; href: string; description: string }[] = [
 
 export function HeaderNavigationMenu() {
   return (
-    <NavigationMenu viewport={false}>
+    <NavigationMenu viewport={false} className='hidden md:block'>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+          <NavigationMenuTrigger className='bg-transparent'>
+            Products
+          </NavigationMenuTrigger>
           <NavigationMenuContent align='right'>
             <ul className='grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
               {products.map((product) => (
@@ -73,7 +75,9 @@ export function HeaderNavigationMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuTrigger className='bg-transparent'>
+            Resources
+          </NavigationMenuTrigger>
           <NavigationMenuContent align='right'>
             <ul className='grid w-[200px] gap-4'>
               <li>
@@ -100,7 +104,9 @@ export function HeaderNavigationMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>About</NavigationMenuTrigger>
+          <NavigationMenuTrigger className='bg-transparent'>
+            About
+          </NavigationMenuTrigger>
           <NavigationMenuContent align='right'>
             <ul className='grid w-[250px] gap-4'>
               <li>
