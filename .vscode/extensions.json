@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "syler.sass-indented",
+    "michelemelluso.code-beautifier"
+  ]
+}
