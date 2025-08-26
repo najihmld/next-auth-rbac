@@ -6,9 +6,36 @@ export async function POST(req: Request) {
 
   // Mock user database
   const users = [
-    { id: 1, email: 'admin@mail.com', password: '123', role: 'admin' },
-    { id: 2, email: 'editor@mail.com', password: '123', role: 'editor' },
-    { id: 3, email: 'viewer@mail.com', password: '123', role: 'viewer' },
+    {
+      id: 1,
+      email: 'admin@mail.com',
+      password: '123',
+      name: 'Admin',
+      role: 'admin',
+      permissions: [
+        'dashboard:view',
+
+        'users:add',
+        'users:edit',
+        'users:delete',
+      ],
+    },
+    {
+      id: 2,
+      email: 'editor@mail.com',
+      password: '123',
+      name: 'Editor',
+      role: 'editor',
+      permissions: ['dashboard:view', 'users:view', 'users:edit'],
+    },
+    {
+      id: 3,
+      email: 'guest@mail.com',
+      password: '123',
+      name: 'Guest',
+      role: 'guest',
+      permissions: ['dashboard:view', 'users:view'],
+    },
   ];
 
   const user = users.find((u) => u.email === email && u.password === password);
@@ -28,6 +55,8 @@ export async function POST(req: Request) {
       id: user.id,
       email: user.email,
       role: user.role,
+      name: user.name,
+      permissions: user.permissions,
     },
     token: `mock-token-${user.role}`, // biasanya JWT
   });

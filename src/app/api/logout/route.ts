@@ -1,0 +1,17 @@
+// app/api/logout/route.ts
+import { NextResponse } from 'next/server';
+
+export async function POST() {
+  const response = NextResponse.json({ message: 'Logout berhasil' });
+
+  // Hapus cookie (dengan cara set expired)
+  response.cookies.set({
+    name: 'token',
+    value: '',
+    path: '/',
+    httpOnly: true,
+    maxAge: 0, // langsung expire
+  });
+
+  return response;
+}

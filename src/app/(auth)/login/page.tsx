@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -14,12 +16,13 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
-import { useLoginMutation } from '../../../features/auth/api/login';
+import { useLoginMutation } from '@/features/auth/api/use-login';
+import { useAuthStore } from '@/stores/use-auth-store';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const [email, setEmail] = useState('admin@mail.com');
+  const [password, setPassword] = useState('123');
 
   const loginMutation = useLoginMutation();
 
@@ -29,10 +32,8 @@ export default function LoginPage() {
       { email, password },
       {
         onSuccess: (data) => {
-          // Simpan token ke localStorage/sessionStorage
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          alert('Login success as ' + data.user.email);
+          useAuthStore.setState({ user: data.user });
+          router.replace('/dashboard');
         },
         onError: (err: any) => {
           alert(err.message);
@@ -64,6 +65,7 @@ export default function LoginPage() {
                   placeholder='m@example.com'
                   required
                   onChange={(e) => setEmail(e.target.value)}
+                  defaultValue={email}
                 />
               </div>
               <div className='grid gap-2'>
@@ -81,6 +83,7 @@ export default function LoginPage() {
                   type='password'
                   required
                   onChange={(e) => setPassword(e.target.value)}
+                  defaultValue={password}
                 />
               </div>
 

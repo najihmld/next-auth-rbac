@@ -2,10 +2,12 @@
 
 import { createMutation } from 'react-query-kit';
 
+import { User } from '@/stores/use-auth-store';
+
 type LoginVariables = { email: string; password: string };
 type LoginResponse = {
   token: string;
-  user: { id: number; name: string; email: string; role: string };
+  user: User;
 };
 
 export const useLoginMutation = createMutation<LoginResponse, LoginVariables>({
