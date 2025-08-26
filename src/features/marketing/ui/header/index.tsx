@@ -24,19 +24,9 @@ function Header() {
           <div className='flex items-center space-x-2 md:space-x-4'>
             <HeaderNavigationMenu />
 
-            <Button
-              asChild
-              variant={'outline'}
-              className='flex items-center gap-2 rounded-full'
-            >
-              <Link href='#' className='dark:text-white'>
-                Sign in
-              </Link>
-            </Button>
-
             <Button asChild className='flex items-center gap-2 rounded-full'>
-              <Link href='#' className='dark:text-white'>
-                Book a Demo
+              <Link href='/login' className='dark:text-white'>
+                Log in
               </Link>
             </Button>
           </div>
