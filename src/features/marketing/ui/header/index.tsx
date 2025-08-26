@@ -14,7 +14,7 @@ function Header() {
             <Image
               priority
               alt='Logo'
-              src={'/header-logo.png'}
+              src={'/header-logo.svg'}
               height={30}
               width={140}
               className='mx-2'

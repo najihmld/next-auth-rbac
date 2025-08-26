@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'CoorDeck Technologies',
-  description: 'Connected Teams Coordinated Projects',
+  title: 'Next Auth RBAC',
+  description: 'Role-Based Access Control system',
 };
 
 export default function RootLayout({
