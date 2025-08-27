@@ -35,7 +35,7 @@ export default function LoginPage() {
           useAuthStore.setState({ user: data.user });
           router.replace('/dashboard');
         },
-        onError: (err: any) => {
+        onError: (err) => {
           alert(err.message);
         },
       }
