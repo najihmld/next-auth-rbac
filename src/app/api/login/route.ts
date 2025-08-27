@@ -3,45 +3,10 @@ import { NextResponse } from 'next/server';
 
 import { generateMockToken } from '@/lib/mock-token';
 
+import { users } from '../../../constants/users';
+
 export async function POST(req: Request) {
   const { email, password } = await req.json();
-
-  // Mock user database
-  const users = [
-    {
-      id: 1,
-      email: 'admin@mail.com',
-      password: '123',
-      name: 'Admin',
-      role: 'admin',
-      permissions: [
-        'dashboard:access',
-
-        'users:access',
-        'users:add',
-        'users:edit',
-        'users:delete',
-
-        'settings:access',
-      ],
-    },
-    {
-      id: 2,
-      email: 'editor@mail.com',
-      password: '123',
-      name: 'Editor',
-      role: 'editor',
-      permissions: ['dashboard:access', 'users:access', 'users:edit'],
-    },
-    {
-      id: 3,
-      email: 'guest@mail.com',
-      password: '123',
-      name: 'Guest',
-      role: 'guest',
-      permissions: ['dashboard:access'],
-    },
-  ];
 
   const user = users.find((u) => u.email === email && u.password === password);
 

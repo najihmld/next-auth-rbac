@@ -93,7 +93,17 @@ export default function LoginPage() {
             </div>
           </form>
         </CardContent>
-        <CardFooter className='flex-col gap-2'></CardFooter>
+        <CardFooter className='flex-col gap-2'>
+          <div className='w-full rounded-sm bg-red-200 p-3 text-left text-xs'>
+            Email: <br />
+            admin@mail.com <br />
+            editor@mail.com <br />
+            guest@mail.com
+            <br />
+            <br />
+            Passowrd: 123
+          </div>
+        </CardFooter>
       </Card>
     </main>
   );
