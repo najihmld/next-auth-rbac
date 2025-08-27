@@ -1,6 +1,8 @@
 // app/api/login/route.ts
 import { NextResponse } from 'next/server';
 
+import { generateMockToken } from '@/lib/mock-token';
+
 export async function POST(req: Request) {
   const { email, password } = await req.json();
 
@@ -13,11 +15,14 @@ export async function POST(req: Request) {
       name: 'Admin',
       role: 'admin',
       permissions: [
-        'dashboard:view',
+        'dashboard:access',
 
+        'users:access',
         'users:add',
         'users:edit',
         'users:delete',
+
+        'settings:access',
       ],
     },
     {
@@ -26,7 +31,7 @@ export async function POST(req: Request) {
       password: '123',
       name: 'Editor',
       role: 'editor',
-      permissions: ['dashboard:view', 'users:view', 'users:edit'],
+      permissions: ['dashboard:access', 'users:access', 'users:edit'],
     },
     {
       id: 3,
@@ -34,7 +39,7 @@ export async function POST(req: Request) {
       password: '123',
       name: 'Guest',
       role: 'guest',
-      permissions: ['dashboard:view', 'users:view'],
+      permissions: ['dashboard:access'],
     },
   ];
 
@@ -47,6 +52,8 @@ export async function POST(req: Request) {
     );
   }
 
+  const token = generateMockToken(user);
+
   // Simulasi set cookie JWT/token (di real case pakai sign JWT)
   const response = NextResponse.json({
     success: true,
@@ -58,10 +65,10 @@ export async function POST(req: Request) {
       name: user.name,
       permissions: user.permissions,
     },
-    token: `mock-token-${user.role}`, // biasanya JWT
+    token,
   });
 
-  response.cookies.set('token', `mock-token-${user.role}`, {
+  response.cookies.set('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',

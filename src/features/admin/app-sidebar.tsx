@@ -1,5 +1,10 @@
 'use client';
 
+import { useMemo } from 'react';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
 import { Home, Settings, Users } from 'lucide-react';
 
 import { Separator } from '@/components/ui/separator';
@@ -16,6 +21,8 @@ import {
 
 import { Button } from '../../components/ui/button';
 import { useLogout } from '../../features/auth/api/use-logout';
+import { checkRouteAccess } from '../../lib/permissions';
+import { useAuthStore } from '../../stores/use-auth-store';
 
 // Menu items.
 const items = [
@@ -37,22 +44,40 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   const { logout } = useLogout();
+  const user = useAuthStore((state) => state.user);
+
+  const accessibleMenuItems = useMemo(
+    () =>
+      items.filter((item) =>
+        checkRouteAccess(item.url, user?.permissions || [])
+      ),
+    [user?.permissions]
+  );
 
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
+          <SidebarGroupContent className='bg-gray-400/20 p-2'>
+            <h3>
+              Welcome: <strong>{user?.name}</strong>
+            </h3>
+          </SidebarGroupContent>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {accessibleMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith(item.url)}
+                  >
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -61,8 +86,8 @@ export function AppSidebar() {
             <Button
               onClick={logout}
               className='mt-4'
-              size={'sm'}
-              variant={'destructive'}
+              size='sm'
+              variant='destructive'
             >
               Logout
             </Button>

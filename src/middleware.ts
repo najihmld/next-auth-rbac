@@ -1,7 +1,9 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { Role, checkAccess } from './lib/permissions';
+import { decodeMockToken } from './lib/mock-token';
+import { checkRouteAccess } from './lib/permissions';
+import { User } from './stores/use-auth-store';
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
@@ -14,9 +16,9 @@ export function middleware(request: NextRequest) {
     'mock-token-editor': { role: 'editor' },
   };
 
-  const user = token ? userMap[token] : null;
+  const user: User = token ? decodeMockToken(token) : null;
 
-  const hasAccess = checkAccess(pathname, user?.role as Role);
+  const hasAccess = checkRouteAccess(pathname, user?.permissions);
 
   if (!hasAccess) {
     return NextResponse.redirect(new URL('/unauthorized', request.url));

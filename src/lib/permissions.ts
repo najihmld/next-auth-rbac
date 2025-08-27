@@ -1,17 +1,28 @@
-export type Role = 'guest' | 'admin' | 'editor';
+// export type Role = 'guest' | 'admin' | 'editor';
 
-// Define route permissions
-const routePermissions: Record<string, Role[]> = {
-  '/dashboard': ['admin', 'editor'],
-  '/users': ['admin', 'editor'],
-  '/settings': ['admin'],
-};
+export const protectedRoutes = [
+  {
+    path: '/dashboard',
+    requiredPermission: 'dashboard:access',
+  },
+  {
+    path: '/users',
+    requiredPermission: 'users:access',
+  },
+  {
+    path: '/settings',
+    requiredPermission: 'settings:access',
+  },
+];
 
-export function checkAccess(path: string, role: Role = 'guest'): boolean {
-  for (const [route, roles] of Object.entries(routePermissions)) {
-    if (path.startsWith(route)) {
-      return roles.includes(role);
-    }
+export function checkRouteAccess(path: string, permissions: string[]): boolean {
+  const matchedRoute = protectedRoutes.find(
+    (route) => path.startsWith(route.path) // cocokkan prefix
+  );
+
+  if (!matchedRoute) {
+    return true; // kalau path tidak ada di protectedRoutes, berarti bebas diakses
   }
-  return true; // default: allow
+
+  return permissions.includes(matchedRoute.requiredPermission);
 }

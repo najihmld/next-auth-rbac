@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export type User = {
   id: number;
@@ -15,13 +16,20 @@ type AuthState = {
   hasPermission: (permission: string) => boolean;
 };
 
-export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
-  setUser: (user) => set({ user }),
-  clearUser: () => set({ user: null }),
-  hasPermission: (permission) => {
-    const user = get().user;
-    if (!user) return false;
-    return user.permissions.includes(permission);
-  },
-}));
+export const useAuthStore = create(
+  persist<AuthState>(
+    (set, get) => ({
+      user: null,
+      setUser: (user) => set({ user }),
+      clearUser: () => set({ user: null }),
+      hasPermission: (permission) => {
+        const user = get().user;
+        if (!user) return false;
+        return user.permissions.includes(permission);
+      },
+    }),
+    {
+      name: 'auth-storage', // key di localStorage
+    }
+  )
+);
