@@ -9,13 +9,6 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
   const pathname = request.nextUrl.pathname;
 
-  // Mock user mapping
-  const userMap: Record<string, { role: string }> = {
-    'mock-token-admin': { role: 'admin' },
-    'mock-token-guest': { role: 'guest' },
-    'mock-token-editor': { role: 'editor' },
-  };
-
   const user: User = token ? decodeMockToken(token) : null;
 
   const hasAccess = checkRouteAccess(pathname, user?.permissions);

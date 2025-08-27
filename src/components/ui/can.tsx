@@ -9,7 +9,9 @@ import {
 } from '@/components/ui/tooltip';
 import { useAuthStore } from '@/stores/use-auth-store';
 
-type CanProps<T extends object = any> = {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+type CanProps = {
   permission: string;
   disableInstead?: boolean;
   showTooltip?: string; // kalau disable → kasih tooltip
@@ -17,15 +19,13 @@ type CanProps<T extends object = any> = {
   fallback?: ReactNode;
 };
 
-export function Can<
-  T extends { disabled?: boolean; style?: React.CSSProperties },
->({
+export function Can({
   permission,
   disableInstead = false,
   showTooltip,
   children,
   fallback,
-}: CanProps<T>) {
+}: CanProps) {
   const hasPermission = useAuthStore((state) =>
     state.hasPermission(permission)
   );
@@ -36,7 +36,8 @@ export function Can<
       const disabledChild = cloneElement(children as ReactElement<any>, {
         disabled: true,
         style: {
-          ...(children.props as any).style,
+          ...(children.props as React.ButtonHTMLAttributes<HTMLButtonElement>)
+            .style,
           cursor: 'not-allowed',
           opacity: 0.5,
         },

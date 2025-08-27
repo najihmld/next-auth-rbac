@@ -1,4 +1,6 @@
-export function generateMockToken(user: any) {
+import { User } from '../stores/use-auth-store';
+
+export function generateMockToken(user: User) {
   const header = Buffer.from(
     JSON.stringify({ alg: 'HS256', typ: 'JWT' })
   ).toString('base64url');
@@ -27,6 +29,7 @@ export function decodeMockToken(token: string) {
     const decoded = Buffer.from(payload, 'base64url').toString('utf8');
     return JSON.parse(decoded);
   } catch (err) {
+    console.log(err);
     return null; // token rusak / gagal decode
   }
 }
