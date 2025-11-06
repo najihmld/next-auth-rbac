@@ -46,7 +46,11 @@ export function Can({
       // kalau ada showTooltip → bungkus pakai span dengan title
       return showTooltip ? (
         <Tooltip>
-          <TooltipTrigger>{disabledChild}</TooltipTrigger>
+          <TooltipTrigger asChild>
+            <span className='inline-block cursor-not-allowed'>
+              {disabledChild}
+            </span>
+          </TooltipTrigger>
           <TooltipContent>
             <p>{showTooltip}</p>
           </TooltipContent>
